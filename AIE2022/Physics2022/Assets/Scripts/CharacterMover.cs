@@ -22,6 +22,8 @@ public class CharacterMover : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+
         cc = GetComponent<CharacterController>();
         aa = GetComponentInChildren<Animator>();
         cam = Camera.main.transform;
@@ -33,11 +35,11 @@ public class CharacterMover : MonoBehaviour
         moveInput.x = Input.GetAxis("Horizontal");
         moveInput.y = Input.GetAxis("Vertical");
         jumpInput = Input.GetButton("Jump");
-        shift = Input.GetButton("Shift");
 
         aa.SetFloat("Forwards", moveInput.y);
         aa.SetBool("Jump", !isGrounded);
-        aa.SetBool("shift", true);
+
+        aa.SetBool("Crouch", Input.GetKey(KeyCode.LeftShift));
     }
 
     void FixedUpdate()
@@ -62,10 +64,12 @@ public class CharacterMover : MonoBehaviour
         if (isGrounded && velocity.y < 0)
             velocity.y = 0;
 
+        // apply gravity after zero velocity so we register as grounded still
         velocity += Physics.gravity * Time.fixedDeltaTime;
         if(!isGrounded)
             hitDirection = Vector3.zero;
 
+        // slide objects off surface they're hanging on to
         if (moveInput.x == 0 && moveInput.y == 0)
         {
             Vector3 horizontalHitDirection = hitDirection;

@@ -26,8 +26,8 @@ public class CameraController : MonoBehaviour
             Vector3 angles = transform.eulerAngles;
             float dx = Input.GetAxis("Mouse Y");
             float dy = Input.GetAxis("Mouse X");
-            angles.x = Mathf.Clamp(angles.x + dx * speed * Time.deltaTime, 0, 70);
-
+            //angles.x = Mathf.Clamp(angles.x + -dx * speed * Time.deltaTime, 0, 70);
+            angles.x += -dx * speed * Time.deltaTime;
             angles.y += dy * speed * Time.deltaTime;
             transform.eulerAngles = angles;
         }

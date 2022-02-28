@@ -6,8 +6,6 @@ using UnityEngine.UI;
 public class Raycast : MonoBehaviour
 {
     public Text output;
-    GameObject selected;
-    public float move = 1.0f;
 
     // Update is called once per frame
     void Update()
@@ -15,27 +13,16 @@ public class Raycast : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         RaycastHit hit;
-        if(Physics.Raycast(ray, out hit, 500) == true)
+        if (Physics.Raycast(ray, out hit, 500) == true)
         {
-            output.text = hit.transform.gameObject.name;
-            
+            //output.text = hit.transform.gameObject.name;
         }
 
-        if(Input.GetKeyDown(KeyCode.Delete))
+        if (Input.GetKeyDown(KeyCode.Delete))
         {
-            Destroy(selected);
-            Remove();
-            return;
+            Destroy(hit.transform.gameObject);
         }
-    }
 
-    void Remove()
-    {
-        selected = null;
     }
-
-    void SetObject(GameObject obj)
-    {
-        selected = obj;
-    }
+    
 }
