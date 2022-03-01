@@ -5,7 +5,7 @@ using UnityEngine;
 public class Gun : MonoBehaviour
 {
     public float damage = 10f;
-    public float range = 100f;
+    public float range = 20f;
 
     public Camera fpsCam;
     // Update is called once per frame
@@ -23,8 +23,10 @@ public class Gun : MonoBehaviour
         if(Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
         {
             Target target = hit.transform.GetComponentInChildren<Target>();
-
+            
             target.TakeDamage(damage);
+            //if(hit.rigidbody != null)
+            //    hit.rigidbody.AddForce(-hit.normal * 150);
         }
     }
 }
