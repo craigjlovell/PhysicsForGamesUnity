@@ -15,7 +15,7 @@ public class Raycast : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 500) == true)
         {
-            //output.text = hit.transform.gameObject.name;
+            output.text = hit.transform.gameObject.name;
         }
 
         if (Input.GetKeyDown(KeyCode.Delete))
