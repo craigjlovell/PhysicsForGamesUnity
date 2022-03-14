@@ -4,38 +4,41 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public float speed = 10.0f;
-    public float zoomSpeed = 10.0f;
-    public float distance = 4.0f;
+    public float speed = 1f;
+    public float zoomSpeed = 2f;
+    public float distance = -0.5f;
 
     public float heightOffset;
     public Transform target;
     float currentDistance;
     float distanceBack;
+    float verticalRot;
     // Start is called before the first frame update
     void Start()
     {
-        
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButton(1))
-        {
-            Vector3 angles = transform.eulerAngles;
-            float dx = Input.GetAxis("Mouse Y");
-            float dy = Input.GetAxis("Mouse X");
-            //angles.x = Mathf.Clamp(angles.x + -dx * speed * Time.deltaTime, 0, 70);
-            angles.x += -dx * speed * Time.deltaTime;
-            angles.y += dy * speed * Time.deltaTime;
-            transform.eulerAngles = angles;
-        }
+
+        Vector3 angles = transform.eulerAngles;
+        float dx = Input.GetAxis("Mouse Y") * speed * Time.deltaTime;
+        float dy = Input.GetAxis("Mouse X") * speed * Time.deltaTime;
+
+        verticalRot -= dx;
+        verticalRot = Mathf.Clamp(verticalRot, -90f, 90f);
+
+        //angles.x = 
+        //angles.y += dy * speed * Time.deltaTime;
+        //transform.eulerAngles = angles;
+
 
         distanceBack = Mathf.Clamp(distanceBack - Input.GetAxis("Mouse ScrollWheel") * zoomSpeed, 2, 10);
 
         RaycastHit hit;
-        if(Physics.Raycast(GetTargetPos(), -transform.forward,out hit, distance))
+        if (Physics.Raycast(GetTargetPos(), -transform.forward, out hit, distance))
         {
             currentDistance = hit.distance;
         }
@@ -45,9 +48,9 @@ public class CameraController : MonoBehaviour
             currentDistance = Mathf.MoveTowards(currentDistance, distance, Time.deltaTime);
         }
 
-        
-
         transform.position = GetTargetPos() - currentDistance * transform.forward;
+        transform.localRotation = Quaternion.Euler(verticalRot, 0, 0);
+        target.Rotate(Vector3.up * dy);
     }
 
     Vector3 GetTargetPos()

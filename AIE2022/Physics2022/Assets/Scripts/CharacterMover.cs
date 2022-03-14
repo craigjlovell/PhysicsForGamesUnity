@@ -9,7 +9,6 @@ public class CharacterMover : MonoBehaviour
 
     private bool isGrounded;
     private bool jumpInput;
-    private bool shift;
 
 
     CharacterController cc;
@@ -22,8 +21,6 @@ public class CharacterMover : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-
         cc = GetComponent<CharacterController>();
         aa = GetComponentInChildren<Animator>();
         cam = Camera.main.transform;
@@ -49,9 +46,9 @@ public class CharacterMover : MonoBehaviour
         camForward.Normalize();
 
         Vector3 camRight = cam.right;
-        transform.forward = camForward;
+        
 
-        Vector3 delta = (moveInput.x * camRight + moveInput.y * camForward) * speed;
+        Vector3 delta = (moveInput.x * camRight + moveInput.y * camForward) * speed * Time.fixedDeltaTime;
         if(isGrounded || moveInput.x != 0 || moveInput.y != 0)
         {
             velocity.x = delta.x;
@@ -66,7 +63,7 @@ public class CharacterMover : MonoBehaviour
 
         // apply gravity after zero velocity so we register as grounded still
         velocity += Physics.gravity * Time.fixedDeltaTime;
-        if(!isGrounded)
+        if(isGrounded)
             hitDirection = Vector3.zero;
 
         // slide objects off surface they're hanging on to
@@ -79,7 +76,10 @@ public class CharacterMover : MonoBehaviour
                 velocity -= 0.2f * horizontalHitDirection / displacement;
         }
 
-        cc.Move(velocity * Time.deltaTime);
+        delta += velocity * Time.fixedDeltaTime;
+        //transform.forward = camForward; // snaps back to center when x is max
+
+        cc.Move(delta);
         isGrounded = cc.isGrounded;
 
     }
