@@ -13,7 +13,7 @@ public class Grenade : MonoBehaviour
 
     bool hasExploaded;
     public GameObject explodePart;
-    RagdollTest rag;
+    Ragdoll rag;
     void Start()
     {
         countdown = timer;
@@ -40,9 +40,9 @@ public class Grenade : MonoBehaviour
             Rigidbody rb = nearByObject.GetComponent<Rigidbody>();
             if(rb != null)
             {
-                if (rb.GetComponent<RagdollTest>() && rb.tag == "enemy")
+                if (rb.GetComponent<Ragdoll>() && rb.tag == "enemy")
                 {
-                    rb.GetComponent<RagdollTest>().Activate();
+                    rb.GetComponent<Ragdoll>().RagdollOn = true;
                     rb.GetComponent<Health>().TakeDamage(rb.GetComponent<Health>().currentHealth, Vector3.zero);
                 }
                 rb.AddExplosionForce(force, transform.position, radius, 1f, ForceMode.Impulse);

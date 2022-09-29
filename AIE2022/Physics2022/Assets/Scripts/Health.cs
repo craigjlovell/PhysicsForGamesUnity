@@ -7,11 +7,11 @@ public class Health : MonoBehaviour
     public float maxHealth;
     
     public float currentHealth;
-    RagdollTest ragdoll;
+    Ragdoll ragdoll;
     // Start is called before the first frame update
     void Start()
     {
-        ragdoll = GetComponent<RagdollTest>();
+        ragdoll = GetComponent<Ragdoll>();
         currentHealth = maxHealth;
         var rigidBodies = GetComponentsInChildren<Rigidbody>();
         foreach(var rigidBody in rigidBodies)
@@ -32,6 +32,6 @@ public class Health : MonoBehaviour
     }
     void Die()
     {
-        ragdoll.Activate();
+        ragdoll.RagdollOn = true;
     }
 }

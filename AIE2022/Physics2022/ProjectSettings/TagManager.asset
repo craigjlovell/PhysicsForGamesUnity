@@ -5,19 +5,23 @@ TagManager:
   serializedVersion: 2
   tags:
   - Shootable
+  - Object
+  - enemy
+  - Ball
+  - Battery
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
-  - 
+  - Enemy
+  - EnemyBase
   - Lighting
   - Ground
   - Postprocessing
-  - 
+  - Ragdoll
   - 
   - 
   - 

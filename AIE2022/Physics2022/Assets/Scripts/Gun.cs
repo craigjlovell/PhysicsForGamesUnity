@@ -9,8 +9,8 @@ public class Gun : MonoBehaviour
 
     public ParticleSystem muzzleflash;
     public GameObject impact;
-
-    public Camera fpsCam;
+    public LayerMask layerMask;
+    public Transform interactPoint;
 
     bool isShooting;
     // Update is called once per frame
@@ -31,8 +31,9 @@ public class Gun : MonoBehaviour
     void Shoot()
     {
         muzzleflash.Emit(1);
-        RaycastHit hit;
-        if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
+        RaycastHit hit; 
+        Ray ray = new Ray(interactPoint.position, interactPoint.forward);
+        if (Physics.Raycast(ray, out hit, range, layerMask.value))
         {
             Health target = hit.transform.GetComponentInChildren<Health>();
             
