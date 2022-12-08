@@ -6,9 +6,10 @@ TagManager:
   tags:
   - Shootable
   - Object
-  - enemy
   - Ball
   - Battery
+  - FxTemporaire
+  - Enemy
   layers:
   - Default
   - TransparentFX
